@@ -4,22 +4,25 @@
 #include <vector>
 #include "Enemigos.h"
 #include "ReactorArc.h"
-
+#include<string>
 
 using namespace std;
 
 vector<Enemigos*> enemigos;
 
-void llenarEnemigos();
+void llenarEnemigos(int, int);
 
 
 int main(){
 
-
   int x = 41; //Primer Cuadro
   int y = 49; //Primer Cuadro
+  //Enemigos
+  int tempX = 4;
+  int tempY = 12;
 
   int nivel = 1;
+  int vidas = 3;
   bool seguir = true;
   initscr();
   start_color();
@@ -33,15 +36,23 @@ int main(){
   printw("Nombre del jugador: ");
   move(0, 70);
   printw("Nivel: ");
+  move(0, 78);
+  printw ("%d", nivel);
   move(0,90);
   printw("Numero de vidas: ");
-  llenarEnemigos();
+  move (0,108);
+  printw("%d", vidas);
+  llenarEnemigos(tempX, tempY);
+
 
   while(seguir){
 
+
     if(nivel == 1){
-      ReactorArc* reactorArc = new ReactorArc(x,y);
-      seguir = reactorArc->navePrincipal();
+      bool bajar = true;
+      int segundos = 0;
+        ReactorArc* reactorArc = new ReactorArc(x,y);
+        seguir = reactorArc->navePrincipal();
     } else if (nivel == 2){
 
     } else if (nivel == 3){
@@ -52,10 +63,8 @@ int main(){
   endwin();
 }
 
-void llenarEnemigos(){
+void llenarEnemigos(int tempX, int tempY){
 
-  int tempX = 4;
-  int tempY = 12;
   for (int i = 0; i < 30; i++) {
       Enemigos* enemigoTemp;
       enemigoTemp = new Enemigos(tempX,tempY);
