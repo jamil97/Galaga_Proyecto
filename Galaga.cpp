@@ -42,15 +42,13 @@ int main(){
   printw("Numero de vidas: ");
   move (0,108);
   printw("%d", vidas);
-  llenarEnemigos(tempX, tempY);
+  //  llenarEnemigos(tempX, tempY);
 
 
   while(seguir){
 
 
     if(nivel == 1){
-      bool bajar = true;
-      int segundos = 0;
         ReactorArc* reactorArc = new ReactorArc(x,y);
         seguir = reactorArc->navePrincipal();
     } else if (nivel == 2){

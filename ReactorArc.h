@@ -11,5 +11,10 @@ class ReactorArc{
     ReactorArc();
     ReactorArc(int,int);
     bool navePrincipal();
+    void naveEnemiga(int, int);
+    void llenarEnemigos(int, int);
+    void pintarNegro(int, int);
+    void pintarAtrasEnemigos(int,int);
+    void bajar();
 };
 #endif

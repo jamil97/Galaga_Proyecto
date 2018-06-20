@@ -2,6 +2,9 @@
 #include <ncurses.h>
 #include <unistd.h>
 #include <iostream>
+#include <chrono>
+
+bool detener = false;
 
 ReactorArc::ReactorArc(){
 
@@ -15,7 +18,15 @@ ReactorArc::ReactorArc(int x1, int y1){
 bool ReactorArc::navePrincipal(){
 
   bool seguir = true;
+  int segundos = 0;
+  int tempEnemigoX = 4;
+  int tempEnemigoY = 12;
+
+  llenarEnemigos(tempEnemigoX,tempEnemigoY);
+
+
   while(seguir){
+
   start_color();
   init_pair(1, COLOR_RED, COLOR_RED);//Inicializa el color
   init_pair(2,COLOR_BLACK, COLOR_BLACK);
@@ -248,6 +259,20 @@ bool ReactorArc::navePrincipal(){
 
   char tecla;
   tecla = getch();
+
+
+  //BAJAR CADA 10 SEGUNDOS.
+    segundos++;
+  if(segundos == 100 && tempEnemigoX!=30) {
+      segundos = 0;
+      int tempBajarX = tempEnemigoX;
+      int tempBajarY = tempEnemigoY;
+      pintarAtrasEnemigos(tempBajarX,tempBajarY);
+      tempBajarX++;
+      tempEnemigoX++;
+      llenarEnemigos(tempBajarX,tempBajarY);
+      refresh();
+    }
 
 //   VALIDACIONES PARA MOVER LA NAVE
     if(tecla == 'f'){
@@ -501,3 +526,117 @@ bool ReactorArc::navePrincipal(){
   }
   return seguir;
 }
+
+void ReactorArc::naveEnemiga(int x, int y){
+
+  start_color();
+  init_pair(5,COLOR_RED, COLOR_RED);
+  init_pair(6,COLOR_WHITE, COLOR_WHITE);
+
+    //Cuerpo enmedio
+    attron(COLOR_PAIR(6));
+    move(x,y-1);
+    printw(" ");
+    move (x,y);
+    printw(" ");
+    attron(COLOR_PAIR(5));
+    move(x,y+1);
+    printw(" ");
+    attron(COLOR_PAIR(6));
+    move(x,y+2);
+    printw(" ");
+    attron(COLOR_PAIR(5));
+    move(x,y+3);
+    printw(" ");
+    attron(COLOR_PAIR(6));
+    move(x,y+4);
+    printw(" ");
+    move(x,y+5);
+    printw(" ");
+
+    //Cuerpo Bajo
+    move(x-1,y);
+    printw(" ");
+    move(x-1,y+1);
+    printw(" ");
+    move(x-1,y+2);
+    printw(" ");
+    move(x-1,y+3);
+    printw(" ");
+    attron(COLOR_PAIR(6));
+    move(x-1,y+4);
+    printw(" ");
+}
+
+void ReactorArc::llenarEnemigos(int x, int y){
+  for (int i = 0; i < 30; i++) {
+      naveEnemiga(x,y);
+        y+=9;
+      if (i==10) {
+        x+=3;
+        y = 12;
+      } else if(i==21){
+        x+=3;
+        y=12;
+      }
+  }
+}
+
+void ReactorArc::pintarNegro(int x, int y){
+  start_color();
+  init_pair(1,COLOR_BLACK, COLOR_BLACK);
+    //Cuerpo enmedio
+    attron(COLOR_PAIR(1));
+    move(x,y-1);
+    printw(" ");
+    move (x,y);
+    printw(" ");
+    attron(COLOR_PAIR(1));
+    move(x,y+1);
+    printw(" ");
+    attron(COLOR_PAIR(1));
+    move(x,y+2);
+    printw(" ");
+    attron(COLOR_PAIR(1));
+    move(x,y+3);
+    printw(" ");
+    attron(COLOR_PAIR(1));
+    move(x,y+4);
+    printw(" ");
+    move(x,y+5);
+    printw(" ");
+
+    //Cuerpo Bajo
+    move(x-1,y);
+    printw(" ");
+    move(x-1,y+1);
+    printw(" ");
+    move(x-1,y+2);
+    printw(" ");
+    move(x-1,y+3);
+    printw(" ");
+    attron(COLOR_PAIR(1));
+    move(x-1,y+4);
+    printw(" ");
+}
+
+void ReactorArc::pintarAtrasEnemigos(int x, int y){
+  for (int i = 0; i < 30; i++) {
+    pintarNegro(x,y);
+    y+=9;
+    if (i==10) {
+      x+=3;
+      y = 12;
+    } else if(i==21){
+      x+=3;
+      y=12;
+    }
+  }
+}
+
+/*void ReactorArc::bajar(){
+  using namespace std::literals::chrono_literals;
+  while (!detener) {
+    this_thread::sleep_for(10s);
+  }
+}*/
