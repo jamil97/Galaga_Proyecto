@@ -9,12 +9,12 @@ class CapitanAmerica{
     public:
       CapitanAmerica();
       CapitanAmerica(int, int);
-      bool naveCapitan;
-      bool naveEnemiga(int, int);
+      bool naveCapitan();
+      /*bool naveEnemiga(int, int);
       void llenarEnemigos(int, int);
       void pintarNegro(int, int);
-      void pintarAtrasEnemigos(int, int);
-      
+      void pintarAtrasEnemigos(int, int);*/
+
 
 
 };

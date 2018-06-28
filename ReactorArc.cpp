@@ -1,11 +1,14 @@
 #include "ReactorArc.h"
+#include "Enemigos.h"
 #include <ncurses.h>
 #include <unistd.h>
 #include <iostream>
 #include <chrono>
 #include  <thread>
+#include <vector>
 
 bool detener = false;
+vector <Enemigos*> enem;
 
 ReactorArc::ReactorArc(){
 
@@ -274,6 +277,7 @@ bool ReactorArc::navePrincipal(){
       llenarEnemigos(tempBajarX,tempBajarY);
       refresh();
     }
+
 
 //   VALIDACIONES PARA MOVER LA NAVE
     if(tecla == 'f'){
@@ -572,6 +576,7 @@ void ReactorArc::naveEnemiga(int x, int y){
 void ReactorArc::llenarEnemigos(int x, int y){
   for (int i = 0; i < 30; i++) {
       naveEnemiga(x,y);
+
         y+=9;
       if (i==10) {
         x+=3;

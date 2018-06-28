@@ -4,6 +4,7 @@
 #include <vector>
 #include "Enemigos.h"
 #include "ReactorArc.h"
+#include "CapitanAmerica.h"
 #include<string>
 
 using namespace std;
@@ -21,38 +22,49 @@ int main(){
   int tempX = 4;
   int tempY = 12;
 
-  int nivel = 1;
+  int nivel = 2;
   int vidas = 3;
+  int puntaje = 0;
   bool seguir = true;
+  string jugador = "";
+  cout<<"Ingrese su nombre de usuario: "<<endl;
+  cin>>jugador;
   initscr();
   start_color();
   init_pair(1, COLOR_RED, COLOR_RED);//Inicializa el color
   init_pair(2,COLOR_BLACK, COLOR_BLACK);
   init_pair(3,COLOR_WHITE, COLOR_WHITE);
   init_pair(4, COLOR_BLUE, COLOR_BLUE);
-  move(0,0);
-  printw("Galaga Infinity War ");
-  move(0,30);
-  printw("Nombre del jugador: ");
-  move(0, 70);
-  printw("Nivel: ");
-  move(0, 78);
-  printw ("%d", nivel);
-  move(0,90);
-  printw("Numero de vidas: ");
-  move (0,108);
-  printw("%d", vidas);
+
+
   //  llenarEnemigos(tempX, tempY);
 
 
   while(seguir){
 
+    move(0,0);
+    printw("Nombre del jugador: ");
+    move(0,25);
+    printw("%s", jugador);
+    move(0, 44);
+    printw("Nivel: ");
+    move(0, 52);
+    printw ("%d", nivel);
+    move(0,65);
+    printw("Numero de vidas: ");
+    move(0,84);
+    printw("%d", vidas);
+    move(0,100);
+    printw("Score: ");
+    move(0,110);
+    printw("%d", puntaje);
 
     if(nivel == 1){
         ReactorArc* reactorArc = new ReactorArc(x,y);
         seguir = reactorArc->navePrincipal();
     } else if (nivel == 2){
-
+        CapitanAmerica* capitan = new CapitanAmerica(x,y);
+        seguir = capitan->naveCapitan();
     } else if (nivel == 3){
 
     }
