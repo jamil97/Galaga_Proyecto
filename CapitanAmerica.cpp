@@ -14,6 +14,8 @@ CapitanAmerica::CapitanAmerica(int x1, int y1){
 
 bool CapitanAmerica::naveCapitan(){
   bool seguir = true;
+  int vidas = 3;
+  int puntaje = 0;
 
   while(seguir){
 

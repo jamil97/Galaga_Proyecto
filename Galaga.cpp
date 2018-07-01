@@ -18,17 +18,16 @@ int main(){
 
   int x = 41; //Primer Cuadro
   int y = 49; //Primer Cuadro
-  //Enemigos
-  int tempX = 4;
-  int tempY = 12;
 
-  int nivel = 2;
+  char nombre [250];
+  int nivel = 1;
   int vidas = 3;
-  int puntaje = 0;
   bool seguir = true;
-  string jugador = "";
-  cout<<"Ingrese su nombre de usuario: "<<endl;
-  cin>>jugador;
+  int score = 0;
+
+  cout<<"Ingrese su nombre porfavor: "<<endl;
+  cin>>nombre;
+
   initscr();
   start_color();
   init_pair(1, COLOR_RED, COLOR_RED);//Inicializa el color
@@ -39,36 +38,38 @@ int main(){
 
   //  llenarEnemigos(tempX, tempY);
 
-
   while(seguir){
 
     move(0,0);
     printw("Nombre del jugador: ");
-    move(0,25);
-    printw("%s", jugador);
-    move(0, 44);
+    move(0,20);
+    printw(nombre);
+    move(0, 40);
     printw("Nivel: ");
-    move(0, 52);
+    move(0, 47);
     printw ("%d", nivel);
-    move(0,65);
+    move(0,58);
     printw("Numero de vidas: ");
-    move(0,84);
+    move (0,78);
     printw("%d", vidas);
-    move(0,100);
-    printw("Score: ");
+    move (0,90);
+    printw("Puntaje: ");
     move(0,110);
-    printw("%d", puntaje);
+    printw("%d", score);
 
-    if(nivel == 1){
-        ReactorArc* reactorArc = new ReactorArc(x,y);
-        seguir = reactorArc->navePrincipal();
-    } else if (nivel == 2){
+    if(score<=1000){
+      ReactorArc* reactorArc = new ReactorArc(x,y);
+      seguir = reactorArc->navePrincipal();
+      score = reactorArc->puntos();
+      erase();
+    } else if (score>=1000&&score<=5000){
         CapitanAmerica* capitan = new CapitanAmerica(x,y);
         seguir = capitan->naveCapitan();
     } else if (nivel == 3){
 
     }
-    refresh();
+
+      refresh();
   }
   endwin();
 }

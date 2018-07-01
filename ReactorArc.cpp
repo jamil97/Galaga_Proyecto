@@ -21,12 +21,30 @@ ReactorArc::ReactorArc(int x1, int y1){
 
 bool ReactorArc::navePrincipal(){
 
+
+
+  int vidas = 3;
+  int puntaje = 0;
+
   bool seguir = true;
   int segundos = 0;
   int tempEnemigoX = 4;
   int tempEnemigoY = 12;
 
-  llenarEnemigos(tempEnemigoX,tempEnemigoY);
+  for (int i = 0; i < 30; i++) {
+    Enemigos* enem1 = new Enemigos(tempEnemigoX,tempEnemigoY);
+    enem.push_back(enem1);
+      tempEnemigoY+=9;
+    if (i==10) {
+      tempEnemigoX+=3;
+      tempEnemigoY= 12;
+    } else if(i==21){
+      tempEnemigoX+=3;
+      tempEnemigoY=12;
+    }
+  }
+
+  llenarEnemigos();
 
 
   while(seguir){
@@ -267,14 +285,19 @@ bool ReactorArc::navePrincipal(){
 
   //BAJAR CADA 10 SEGUNDOS.
     segundos++;
-  if(segundos == 100 && tempEnemigoX!=30) {
+  if(segundos == 70 && tempEnemigoX!=30) {
+
       segundos = 0;
-      int tempBajarX = tempEnemigoX;
-      int tempBajarY = tempEnemigoY;
-      pintarAtrasEnemigos(tempBajarX,tempBajarY);
-      tempBajarX++;
-      tempEnemigoX++;
-      llenarEnemigos(tempBajarX,tempBajarY);
+      for (int i = 0; i < enem.size(); i++) {
+        int tempBajarX = enem[i]->getX();
+        int tempBajarY = enem[i]->getY();
+        tempBajarX++;
+        tempEnemigoX++;
+        enem[i]->setX(tempBajarX);
+        enem[i]->setY(tempBajarY);
+        pintarAtrasEnemigos();
+      }
+      llenarEnemigos();
       refresh();
     }
 
@@ -505,7 +528,7 @@ bool ReactorArc::navePrincipal(){
 
       }  else if(tecla == 32){ // Valida lo espacios
            //Valida que haga disparos
-              for (int i = tx-8; i >= 2; i--) {
+            for (int i = tx-8; i >= 2; i--) {
                 attron(COLOR_PAIR(3));
                 move(i,ty+10);
                 printw(" ");
@@ -518,16 +541,23 @@ bool ReactorArc::navePrincipal(){
                 printw(" ");
                 usleep(4000);
                 refresh();
-                if(i == 2){
-                  attron(COLOR_PAIR(2));
-                  move(i, ty+10);
-                  printw("  ");
-                  attron(COLOR_PAIR(2));
-                  move(i, ty+9);
-                  printw("  ");
+                for (int j = 0; j < enem.size(); j++) {
+                  if(i == 2){
+                    attron(COLOR_PAIR(2));
+                    move(i, ty+10);
+                    printw("  ");
+                    attron(COLOR_PAIR(2));
+                    move(i, ty+9);
+                    printw("  ");
+                  }
+                  if (i == enem[j]->getY()) {
+                    puntaje+=100;
+                  }
                 }
               }
-      }
+
+    }
+
   }
   return seguir;
 }
@@ -573,18 +603,12 @@ void ReactorArc::naveEnemiga(int x, int y){
     printw(" ");
 }
 
-void ReactorArc::llenarEnemigos(int x, int y){
-  for (int i = 0; i < 30; i++) {
-      naveEnemiga(x,y);
+void ReactorArc::llenarEnemigos(){
 
-        y+=9;
-      if (i==10) {
-        x+=3;
-        y = 12;
-      } else if(i==21){
-        x+=3;
-        y=12;
-      }
+  for (int i = 0; i < enem.size(); i++) {
+      int xVector = enem[i]->getX();
+      int yVector = enem[i]->getY();
+      naveEnemiga(xVector,yVector);
   }
 }
 
@@ -626,19 +650,21 @@ void ReactorArc::pintarNegro(int x, int y){
     printw(" ");
 }
 
-void ReactorArc::pintarAtrasEnemigos(int x, int y){
-  for (int i = 0; i < 30; i++) {
-    pintarNegro(x,y);
-    y+=9;
-    if (i==10) {
-      x+=3;
-      y = 12;
-    } else if(i==21){
-      x+=3;
-      y=12;
-    }
+void ReactorArc::pintarAtrasEnemigos(){
+
+  for (int i = 0; i < enem.size(); i++) {
+    int tempEnemigoVectorX = enem[i]->getX()-1;
+    int tempEnemigoVectorY = enem[i]->getY();
+    pintarNegro(tempEnemigoVectorX, tempEnemigoVectorY);
+    tempEnemigoVectorY+=9;
   }
 }
+
+int ReactorArc::puntos(){
+  return puntaje;
+}
+
+
 
 /*void ReactorArc::bajar(){
   using namespace std::literals::chrono_literals;
